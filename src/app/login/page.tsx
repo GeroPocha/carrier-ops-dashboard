@@ -31,12 +31,11 @@ function LoginForm() {
   }
 
   return (
-    <div className={s.login}>
-      <div className={s.brand} style={{ marginBottom: 14 }}>
-        Happy<span className={s.dot}>Robot</span> Logistics
-      </div>
+    <main className={s.login}>
       <div className={s.loginCard}>
-        <strong>Carrier Ops Dashboard</strong>
+        <div className={s.kicker}>HappyRobot Logistics</div>
+        <h1 className={s.loginTitle}>Carrier Desk</h1>
+        <div className={s.loginSub}>Operations dashboard — sign in to continue.</div>
         <form onSubmit={submit}>
           <input
             className={s.input}
@@ -52,7 +51,7 @@ function LoginForm() {
         </form>
         <div className={s.err}>{err}</div>
       </div>
-    </div>
+    </main>
   );
 }
 

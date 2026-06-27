@@ -95,3 +95,31 @@ export function outcomeCounts(rows: CallRow[]): { outcome: Outcome; count: numbe
   }
   return OUTCOME_ORDER.filter((o) => map.has(o)).map((o) => ({ outcome: o, count: map.get(o)! }));
 }
+
+// Call volume by weekday × time-of-day band. Directly answers the brokerage's
+// #1 pain — missed calls at peak (Mon AM, Fri PM) — and informs staffing.
+export const HEAT_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+export const HEAT_BANDS = ["12–4a", "4–8a", "8a–12p", "12–4p", "4–8p", "8p–12a"];
+
+export interface Heatmap {
+  grid: number[][]; // [bandIndex][dayIndex]
+  max: number;
+  total: number;
+}
+
+export function peakHeatmap(rows: CallRow[]): Heatmap {
+  const grid = HEAT_BANDS.map(() => HEAT_DAYS.map(() => 0));
+  let max = 0;
+  let total = 0;
+  for (const r of rows) {
+    if (!r.started_at) continue;
+    const d = new Date(r.started_at);
+    if (Number.isNaN(d.getTime())) continue;
+    const day = (d.getDay() + 6) % 7; // JS Sun=0 → make Mon=0
+    const band = Math.min(HEAT_BANDS.length - 1, Math.floor(d.getHours() / 4));
+    grid[band][day] += 1;
+    total += 1;
+    if (grid[band][day] > max) max = grid[band][day];
+  }
+  return { grid, max, total };
+}

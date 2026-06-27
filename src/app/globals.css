@@ -1,3 +1,24 @@
+:root {
+  /* Freight-desk palette — warm paper, ink, a single clay accent */
+  --paper: #f4f1ea;
+  --paper-2: #efebe2;
+  --card: #fffdf8;
+  --ink: #221f1a;
+  --ink-soft: #4a4640;
+  --muted: #8c8578;
+  --line: #e6e0d4;
+  --line-soft: #efe9de;
+  --clay: #c0532b;        /* accent */
+  --clay-soft: #f7e9e0;
+  --forest: #2f7d56;      /* positive / booked */
+  --forest-soft: #e7f1ea;
+  --rust: #aa3b2a;        /* failure */
+  --rust-soft: #f6e5e1;
+  --navy: #283747;        /* structural (funnel, headers) */
+  --gold: #b07d2b;        /* near-miss / attention */
+  --gold-soft: #f6edd9;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -5,13 +26,28 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: #fafbfc;
-  color: #1a1d24;
 }
 body {
-  font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, #fbf8f1 0%, rgba(251, 248, 241, 0) 60%),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 a {
   color: inherit;
+}
+
+/* page-load reveal */
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
